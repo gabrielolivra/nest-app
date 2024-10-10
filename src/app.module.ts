@@ -6,9 +6,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { Users } from './users/users.entity';
-import { UsersService } from './users/users.service';
-import { UsersController } from './users/users.controller';
-import { APP_GUARD } from '@nestjs/core';
 import { AuthModule } from './auth/auth.module';
 
 
