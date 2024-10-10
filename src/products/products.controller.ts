@@ -12,9 +12,9 @@ export class ProductsController {
     async findAll(@Res() response: Response): Promise<Response> {
         const all_products = await this.productsServices.findAll()
         if (all_products.length > 0) {
-            return response.status(HttpStatus.ACCEPTED).json(all_products)
+            return response.json(all_products)
         }
-        return response.status(HttpStatus.BAD_REQUEST).json({ error: "Não há produtos cadastrados" })
+        return response.json({ error: "Não há produtos cadastrados" })
     }
 
     @Get(':id')
@@ -30,16 +30,16 @@ export class ProductsController {
 
         const ja_existe = await this.productsServices.findOneText(produto.nome)
         if (ja_existe) {
-            return response.status(HttpStatus.BAD_REQUEST).json({ error: "Produto já cadastrado" })
+            return response.json({ error: "Produto já cadastrado" })
         }
         else {
             if (produto.nome && produto.quantidade) {
                 const produto_criado = await this.productsServices.create(produto)
-                return response.status(HttpStatus.CREATED).json(produto_criado)
+                return response.json(produto_criado)
 
             }
             else {
-                return response.status(HttpStatus.BAD_REQUEST).json({ error: 'Produto não cadastrado, preencha todos os campos' });
+                return response.json({ error: 'Produto não cadastrado, preencha todos os campos' });
             }
         }
 
@@ -51,10 +51,10 @@ export class ProductsController {
 
         if (verifica_id) {
             this.productsServices.remove(Number(id))
-            return response.status(HttpStatus.ACCEPTED).json({ sucesso: "Produto removido com sucesso" })
+            return response.json({ sucesso: "Produto removido com sucesso" })
         }
         else {
-            return response.status(HttpStatus.BAD_REQUEST).json({ error: "Id não existe" })
+            return response.json({ error: "Id não existe" })
         }
 
     }
@@ -65,14 +65,14 @@ export class ProductsController {
 
             const atualizao_produto = await this.productsServices.update(id, updateData)
 
-            return response.status(HttpStatus.ACCEPTED).json({ atualizao_produto })
+            return response.json({ atualizao_produto })
 
         }
         catch (error) {
             if (error instanceof NotFoundException) {
                 return response.status(HttpStatus.NOT_FOUND).json({ error: error.message })
             }
-            return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: 'Erro ao atualizar o produto' });
+            return response.json({ error: 'Erro ao atualizar o produto' });
         }
     }
 
