@@ -12,7 +12,7 @@ export class UsersController {
     @Post()
     async create(@Body() user: Users, @Res() response: Response): Promise<Response> {
         const add_user = new Users()
-        add_user.user = user.user
+        add_user.name = user.name
         add_user.email = user.email
         add_user.password = user.password
 
@@ -22,7 +22,7 @@ export class UsersController {
             return response.json({ erro: "Email já cadastrado" })
         }
         else {
-            if (user.user && user.email && user.password) {
+            if (user.name && user.email && user.password) {
                 const create_user = await this.userServices.create(user)
                 return response.json(create_user)
             }
