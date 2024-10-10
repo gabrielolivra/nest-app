@@ -15,6 +15,5 @@ export class Users {
     @Column({ unique: true })
     @IsEmail({}, { message: 'O e-mail deve ser válido' })
     email: string;
-
 }
 
