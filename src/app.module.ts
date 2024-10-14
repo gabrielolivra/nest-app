@@ -7,9 +7,8 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { Users } from './users/users.entity';
 import { AuthModule } from './auth/auth.module';
-
-
-
+import { ScheduleModule } from './schedule/schedule.module';
+import { BullModule } from '@nestjs/bullmq';  // Importando o BullMQ
 
 @Module({
   imports: [
@@ -23,16 +22,19 @@ import { AuthModule } from './auth/auth.module';
       entities: [Products, Users],
       synchronize: true,
     }),
+    // Configurando o BullModule com Redis
+    BullModule.forRoot({
+      connection: {
+        host: 'localhost',  // Ajuste para o host do seu Redis
+        port: 6379,         // Porta padrão do Redis
+      },
+    }),
     ProductsModule,
     UsersModule,
-    AuthModule
-
+    AuthModule,
+    ScheduleModule,  // Módulo de agendamento
   ],
-  controllers: [
-    AppController
-  ], providers: [
-    AppService
-  ]
+  controllers: [AppController],
+  providers: [AppService],
 })
-
 export class AppModule { }

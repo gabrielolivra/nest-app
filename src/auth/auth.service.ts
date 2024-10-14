@@ -14,10 +14,14 @@ export class AuthService {
         pass: string,
     ): Promise<{ access_token: string }> {
         const user = await this.usersService.findOneEmail(email);
-
+        console.log(user)
+        console.log(await bcrypt.compare(pass, user.password))
+        console.log(pass, user.password)
         const isPasswordValid = user && await bcrypt.compare(pass, user.password);
         if (!isPasswordValid) {
+            console.log('oi')
             throw new UnauthorizedException();
+            console.log('oi')
         }
 
         const payload = { sub: user.id, email: user.email };
